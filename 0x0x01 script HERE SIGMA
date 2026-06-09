@@ -16,7 +16,7 @@ if game.CoreGui:FindFirstChild("ModernKeySystem") then
 end
 
 local Gui = Instance.new("ScreenGui")
-Gui.Name = "ModernKeySystem"
+Gui.Name = "0x0x01keySystem"
 Gui.ResetOnSpawn = false
 Gui.Parent = game.CoreGui
 
@@ -44,7 +44,7 @@ Stroke.Color = Color3.fromRGB(180,110,255)
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(1,0,0,45)
 Title.BackgroundTransparency = 1
-Title.Text = "0x0x01 Modern Key System"
+Title.Text = "0x0x01 Key system"
 Title.Font = Enum.Font.GothamBold
 Title.TextSize = 24
 Title.TextColor3 = Color3.fromRGB(255,255,255)
