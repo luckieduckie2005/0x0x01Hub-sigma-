@@ -3100,7 +3100,126 @@ AddButton("Coming soon", function()
 print("coming soon")
 
 end) -- main of categories
--- ====================================================================================================
+
+-- VISUALS CATEGORY
+local AddButton = createCategory("Give")
+
+AddButton("Teleporter tool", function()
+
+-- RYCHLÝ SALTO TELEPORT S DOPADOVÝMI EFEKTY PRO EXECUTOR
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local TweenService = game:GetService("TweenService")
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+
+-- 1. Vytvoření nástroje v batohu
+local Tool = Instance.new("Tool")
+Tool.Name = "Teleport Effect"
+Tool.RequiresHandle = true
+Tool.Parent = LocalPlayer:WaitForChild("Backpack")
+
+-- Skrytá rukojeť
+local Handle = Instance.new("Part")
+Handle.Name = "Handle"
+Handle.Size = Vector3.new(1, 1, 1)
+Handle.Transparency = 1
+Handle.Parent = Tool
+
+local SALTO_ANIM_ID = "rbxassetid://3756303251" 
+
+-- Funkce pro generování fialových částic ohně (používá se pro start i dopad)
+local function createPurpleParticles(parentPart)
+	local particle = Instance.new("ParticleEmitter")
+	particle.Texture = "rbxassetid://242252202"
+	particle.Color = ColorSequence.new(Color3.fromRGB(180, 0, 255)) -- Jasný neonový fialový oheň
+	particle.LightEmission = 1
+	particle.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 5), NumberSequenceKeypoint.new(1, 0)}) -- Větší částice
+	particle.Lifetime = NumberRange.new(0.4, 0.8)
+	particle.Rate = 200 -- Vyšší hustota pro lepší efekt
+	particle.Speed = NumberRange.new(6, 12)
+	particle.Parent = parentPart
+	
+	task.delay(0.2, function()
+		particle.Enabled = false
+		task.wait(0.8)
+		particle:Destroy()
+	end)
+end
+
+-- Funkce pro vytvoření fialového fantoma (používá se pro start i dopad)
+local function spawnPhantomGhost(character)
+	local phantomModel = Instance.new("Model")
+	phantomModel.Name = "TeleportPhantom"
+	phantomModel.Parent = Workspace
+
+	for _, child in pairs(character:GetChildren()) do
+		if child:IsA("BasePart") and child.Name ~= "HumanoidRootPart" then
+			local clone = child:Clone()
+			clone.Anchored = true
+			clone.CanCollide = false
+			clone.Material = Enum.Material.Neon
+			clone.Color = Color3.fromRGB(140, 0, 255)
+			clone.Transparency = 0.3
+			clone.Parent = phantomModel
+			
+			for _, subChild in pairs(clone:GetChildren()) do
+				if not subChild:IsA("SpecialMesh") then
+					subChild:Destroy()
+				end
+			end
+			
+			-- Animace rozplynutí (stín se lehce vznese a zmizí)
+			local tweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+			local goal = {
+				Transparency = 1,
+				Size = clone.Size * 1.1,
+				CFrame = clone.CFrame * CFrame.new(0, 1.5, 0)
+			}
+			TweenService:Create(clone, tweenInfo, goal):Play()
+		end
+	end
+	task.delay(0.4, function() phantomModel:Destroy() end)
+end
+
+-- 2. Hlavní aktivace při kliknutí
+Tool.Activated:Connect(function()
+	local Character = LocalPlayer.Character
+	local Humanoid = Character and Character:FindFirstChildOfClass("Humanoid")
+	local HumanoidRootPart = Character and Character:FindFirstChild("HumanoidRootPart")
+	
+	if Humanoid and HumanoidRootPart and Humanoid.Health > 0 then
+		local TargetPos = Mouse.Hit.Position
+		
+		-- Spuštění bleskové salto animace
+		local animation = Instance.new("Animation")
+		animation.AnimationId = SALTO_ANIM_ID
+		local animTrack = Humanoid:LoadAnimation(animation)
+		animTrack:Play()
+		
+		-- === EFEKTY NA STARÉM MÍSTĚ (ODLET) ===
+		createPurpleParticles(HumanoidRootPart)
+		spawnPhantomGhost(Character)
+		
+		-- OKAMŽITÝ TELEPORT
+		HumanoidRootPart.CFrame = CFrame.new(TargetPos + Vector3.new(0, 3, 0))
+		
+		-- === EFEKTY NA NOVÉM MÍSTĚ (DOPAD) ===
+		-- Částice vybuchnou okamžitě na místě, kde se postava objeví
+		createPurpleParticles(HumanoidRootPart)
+		-- Zanechá fialový stín avatara přímo v bodě dopadu
+		spawnPhantomGhost(Character)
+		
+		-- Ukončení animace po dokončení salta
+		task.delay(0.4, function()
+			animTrack:Stop()
+		end)
+	end
+end)
+
+end) -- main of categories
+
+-------key
 	else
 		Status.TextColor3 = Color3.fromRGB(255,80,80)
 		Status.Text = "Invalid Key!"
