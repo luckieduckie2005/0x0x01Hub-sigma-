@@ -1050,7 +1050,7 @@ end)
 local AddButton = createCategory("scripts")
 
 AddButton("Discord Link - New Discord Server!! ", function()
-	if setclipboard then setclipboard("https://discord.gg/JRtdu9VQ") end -- Dont delete this
+	if setclipboard then setclipboard("https://discord.gg/4q3QvJXxJ4") end -- Dont delete this
 end) -- Dont delete this
 
 AddButton("0x0x01 Gui Teleporter", function()
