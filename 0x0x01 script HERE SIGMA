@@ -3219,6 +3219,20 @@ end)
 
 end) -- main of categories
 
+-- VISUALS CATEGORY
+local AddButton = createCategory("Support <3 Discord links")
+
+AddButton("0x0x01 server", function()
+	if setclipboard then setclipboard("https://discord.gg/4q3QvJXxJ4") end -- Dont delete this
+
+end) -- Dont delete this
+
+AddButton("Ghost pass Hub by Shakhinbek", function()
+	if setclipboard then setclipboard("https://discord.gg/wBtxA4jc") end -- Dont delete this
+
+end) -- main of categories
+
+
 -------key
 	else
 		Status.TextColor3 = Color3.fromRGB(255,80,80)
