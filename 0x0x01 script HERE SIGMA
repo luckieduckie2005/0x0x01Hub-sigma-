@@ -3,7 +3,7 @@
 --//========================================================
 
 local KEY = "0x0x01"
-local DISCORD_LINK = "https://discord.gg/akrQTxvx" -- Change this to your link
+local DISCORD_LINK = "https://discord.gg/4KkwE4xg8" -- Change this to your link
 
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
@@ -11,12 +11,12 @@ local UserInputService = game:GetService("UserInputService")
 
 local LocalPlayer = Players.LocalPlayer
 
-if game.CoreGui:FindFirstChild("ModernKeySystem") then
+if game.CoreGui:FindFirstChild("0x0x01 keysystem") then
 	game.CoreGui.ModernKeySystem:Destroy()
 end
 
 local Gui = Instance.new("ScreenGui")
-Gui.Name = "key system 0x0x01"
+Gui.Name = "New Discord Link"
 Gui.ResetOnSpawn = false
 Gui.Parent = game.CoreGui
 
@@ -3222,13 +3222,13 @@ end) -- main of categories
 -- VISUALS CATEGORY
 local AddButton = createCategory("Support <3 Discord links")
 
-AddButton("0x0x01 server", function()
-	if setclipboard then setclipboard("https://discord.gg/4q3QvJXxJ4") end -- Dont delete this
+AddButton("ERROR", function()
+	if setclipboard then setclipboard("Error 401: deleted_client") end -- Dont delete this
 
 end) -- Dont delete this
 
-AddButton("Ghost pass Hub by Shakhinbek", function()
-	if setclipboard then setclipboard("https://discord.gg/wBtxA4jc") end -- Dont delete this
+AddButton("Error", function()
+	print("Error 401: deleted_client")
 
 end) -- main of categories
 
